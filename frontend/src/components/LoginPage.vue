@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -18,9 +20,23 @@ export default {
     };
   },
   methods: {
-    handleLogin() {
-      // 로그인 로직 (백엔드와 연결 등)
-      console.log(`Logging in with ${this.username} and ${this.password}`);
+    async handleLogin() {
+      try {
+        const response = await axios.post('/api/login', {
+          username: this.username,
+          password: this.password
+        }, {
+          headers: {
+            'Content-Type': 'application/json'  // 명시적으로 Content-Type 설정
+          }
+        });
+        console.log('Login successful:', response.data);
+        // 예: 토큰 저장 (JWT 방식 사용 시)
+        localStorage.setItem('token', response.data.token);
+      } catch (error) {
+        console.error('Login failed:', error.response?.data || error.message);
+        alert('Login failed. Please check your username and password.');
+      }
     }
   }
 };
