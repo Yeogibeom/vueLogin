@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../components/HomePage.vue';
-import LoginPage from '../components/LoginPage.vue';
-import RegisterPage from '../components/RegisterPage.vue';
 
+import RegisterPage from '../components/RegisterPage.vue';
+import HomePage from '../components/HomePage.vue';  // 홈 페이지 컴포넌트
+import LoginPage from '../components/LoginPage.vue';
 const routes = [
     {
         path: '/',
