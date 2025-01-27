@@ -6,39 +6,43 @@
         <p class="text-center text-muted mb-4">Create your account</p>
         <form @submit.prevent="handleRegister">
           <div class="mb-3">
-            <label for="username" class="form-label fw-semibold">Username</label>
+
+            <label for="username" class="form-label fw-semibold">id</label>
             <input
                 type="text"
-                v-model="username"
-                id="username"
+                v-model="id"
+                id="id"
                 class="form-control shadow-sm"
-                placeholder="Enter your username"
+                :placeholder="item?.id"
                 required
+
+            />
+
+            <label for="username" class="form-label fw-semibold">제품명</label>
+            <input
+                type="text"
+                v-model="title"
+                id="title"
+                class="form-control shadow-sm"
+                :placeholder="item?.title"
+                required
+
             />
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label fw-semibold">Password</label>
+            <label for="password" class="form-label fw-semibold">가격</label>
             <input
-                type="password"
-                v-model="password"
-                id="password"
+                v-model="price
+"
+                id="price"
                 class="form-control shadow-sm"
-                placeholder="Enter your password"
+                :placeholder="item?.price"
                 required
+
             />
           </div>
-          <div class="mb-3">
-            <label for="displayName" class="form-label fw-semibold">Display Name</label>
-            <input
-                type="text"
-                v-model="displayName"
-                id="displayName"
-                class="form-control shadow-sm"
-                placeholder="Enter your display name"
-                required
-            />
-          </div>
-          <button type="submit" class="btn btn-success w-100 py-2 shadow">회원가입</button>
+
+          <button type="submit" class="btn btn-success w-100 py-2 shadow">수정</button>
         </form>
       </div>
     </div>
@@ -51,22 +55,41 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: '',
-      password: '',
-      displayName: ''
+      id:this.$route.params.id,
+      title: '',
+      price: '',
+
     };
   },
+  async mounted(){
+    await this.fetchItemUpdate();
+  },
   methods: {
+    async fetchItemUpdate(){
+       try {
+         const id =this.$route.params.id;
+         console.log(this.$route.params.id);
+         const items = await axios.get(`http://localhost:8080/api/update/${id}`);
+         this.item=items.data;
+         this.title = this.item.title;
+         this.price = this.item.price;
+
+       } catch (error) {
+         console.error('상품 정보를 가져오는 데 실패했습니다.', error);
+       }
+    },
+
     async handleRegister() {
       try {
-        const response = await axios.post('http://localhost:8080/api/register', {
-          username: this.username,
-          password: this.password,
-          displayName: this.displayName
+
+        const response = await axios.post(`http://localhost:8080/api/updateitem`, {
+          id:this.id,
+          title: this.title,
+          price: this.price
         });
         console.log('Registration successful:', response.data);
-        alert('Registration successful! Redirecting to login...');
-        this.$router.push('/login'); // 성공 시 로그인 페이지로 리디렉션
+        alert(response.data);
+        this.$router.push('/list'); // 성공 시 로그인 페이지로 리디렉션
       } catch (error) {
         console.error('Registration failed:', error.response?.data || error.message);
         alert('Registration failed. Please try again.');

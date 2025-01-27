@@ -6,39 +6,29 @@
         <p class="text-center text-muted mb-4">Create your account</p>
         <form @submit.prevent="handleRegister">
           <div class="mb-3">
-            <label for="username" class="form-label fw-semibold">Username</label>
+            <label for="username" class="form-label fw-semibold">제품명</label>
             <input
                 type="text"
-                v-model="username"
-                id="username"
+                v-model="title"
+                id="title"
                 class="form-control shadow-sm"
                 placeholder="Enter your username"
                 required
             />
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label fw-semibold">Password</label>
+            <label for="password" class="form-label fw-semibold">가격</label>
             <input
-                type="password"
-                v-model="password"
-                id="password"
+                v-model="price
+"
+                id="price"
                 class="form-control shadow-sm"
                 placeholder="Enter your password"
                 required
             />
           </div>
-          <div class="mb-3">
-            <label for="displayName" class="form-label fw-semibold">Display Name</label>
-            <input
-                type="text"
-                v-model="displayName"
-                id="displayName"
-                class="form-control shadow-sm"
-                placeholder="Enter your display name"
-                required
-            />
-          </div>
-          <button type="submit" class="btn btn-success w-100 py-2 shadow">회원가입</button>
+
+          <button type="submit" class="btn btn-success w-100 py-2 shadow">추가</button>
         </form>
       </div>
     </div>
@@ -51,22 +41,21 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: '',
-      password: '',
-      displayName: ''
+      title: '',
+      price: '',
+
     };
   },
   methods: {
     async handleRegister() {
       try {
-        const response = await axios.post('http://localhost:8080/api/register', {
-          username: this.username,
-          password: this.password,
-          displayName: this.displayName
+        const response = await axios.post('http://localhost:8080/api/edit', {
+          title: this.title,
+          price: this.price,
         });
         console.log('Registration successful:', response.data);
-        alert('Registration successful! Redirecting to login...');
-        this.$router.push('/login'); // 성공 시 로그인 페이지로 리디렉션
+        alert(response.data);
+        this.$router.push('/list'); // 성공 시 로그인 페이지로 리디렉션
       } catch (error) {
         console.error('Registration failed:', error.response?.data || error.message);
         alert('Registration failed. Please try again.');

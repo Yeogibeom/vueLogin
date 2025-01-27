@@ -17,7 +17,11 @@
             <router-link class="nav-link" to="/register">회원가입</router-link>
           </li>
           <li class="nav-item">
-            <a  class="nav-link active"  href="#">사용자이름</a>
+            <router-link class="nav-link active"  to="/list">김</router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link class="nav-link active"  to="/edit">상품추가</router-link>
           </li>
           <li class="nav-item">
             <button class="btn btn-link nav-link" @click="handleLogout">로그아웃</button>
