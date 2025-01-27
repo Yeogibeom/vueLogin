@@ -7,6 +7,7 @@ import ListPage from '../components/ListPage.vue';  // 경로 확인
 import EditPage from "@/components/EditPage.vue";
 import DetailPage from "@/components/DetailPage.vue";
 import UpdateItemPage from "@/components//UpdataItemPage.vue"
+import PostWrite from "@/components/PostWrite.vue";
 
 const routes = [
     {
@@ -43,6 +44,11 @@ const routes = [
         path:'/UpdateItem/:id',
         name:'UpdateItem',
         component: UpdateItemPage
+    },
+    {
+        path:'/PostWrite',
+        name:'PostWrite',
+        component: PostWrite
     }
 ];
 

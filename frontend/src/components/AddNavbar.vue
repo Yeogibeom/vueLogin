@@ -17,32 +17,41 @@
             <router-link class="nav-link" to="/register">회원가입</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active"  to="/list">김</router-link>
+            <router-link class="nav-link active" to="/list">김</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/edit">상품추가</router-link>
           </li>
 
-          <li class="nav-item">
-            <router-link class="nav-link active"  to="/edit">상품추가</router-link>
+          <li class="nav-item" v-if="username">
+            <span class="nav-link">{{ username }}</span>
           </li>
+
           <li class="nav-item">
             <button class="btn btn-link nav-link" @click="handleLogout">로그아웃</button>
           </li>
-        </ul>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/PostWrite">게시물 추가하기</router-link>
+          </li>
 
+        </ul>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
 import axios from "axios";
+import { mapGetters } from 'vuex';
 
 export default {
-  // computed: {
-  //   ...mapGetters(['getUsername']),  // Vuex에서 username 가져오기
-  // },
+  computed: {
+    ...mapGetters(['getUsername']), //
+    username() {
+      return this.getUsername;
+    }
+  },
   methods: {
-
     async handleLogout() {
       try {
         // 서버에 로그아웃 요청 전송
@@ -50,15 +59,14 @@ export default {
 
         // 쿠키 삭제
         document.cookie = 'jwt=; Max-Age=-1; path=/;';
-        this.clearUser(); // Vuex에서 사용자 이름 초기화
-        this.$router.push('/'); // 홈 페이지로 리다이렉트
+        this.$store.dispatch('clearUsername');
+        this.$router.push('/');
         alert('로그아웃 되었습니다.');
       } catch (error) {
         console.error('로그아웃 요청 실패:', error);
         alert('로그아웃 요청 중 오류가 발생했습니다.');
       }
     }
-
   }
 };
 </script>
