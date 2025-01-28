@@ -58,15 +58,16 @@ export default {
     async handleLogin() {
       try {
         // 서버로 로그인 요청
-        const response = await axios.post("http://localhost:8080/api/login", {
+         await axios.post("http://localhost:8080/api/login", {
           username: this.username,
           password: this.password,
         });
 
         alert("로그인 성공");
+
         // 서버 응답에서 JWT를 가져와 쿠키에 저장
-        const jwtToken = response.headers['jwt-token']; // 서버에서 JWT 토큰을 헤더로 받았다고 가정
-        document.cookie = `jwt=${jwtToken}; path=/;`;
+        // const jwtToken = response.headers['jwt-token']; // 서버에서 JWT 토큰을 헤더로 받았다고 가정
+        // document.cookie = `jwt=${jwtToken}; path=/;`;
 
         // 로그인한 사용자 이름을 Vuex에 저장
         this.$store.dispatch('setUsername', this.username);

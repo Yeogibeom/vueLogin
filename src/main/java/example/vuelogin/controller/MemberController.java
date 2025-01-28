@@ -55,7 +55,7 @@ public class MemberController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-
+        System.out.println(jwt);
         return ResponseEntity.status(HttpStatus.OK).body("로그인되었습니다.");
     }
 }
