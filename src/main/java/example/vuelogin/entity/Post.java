@@ -21,4 +21,6 @@ public class Post {
     private String username;
     @Column
     private String createdAt;
+    @Column
+    private int views;
 }

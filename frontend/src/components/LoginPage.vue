@@ -58,27 +58,39 @@ export default {
     async handleLogin() {
       try {
         // 서버로 로그인 요청
-         await axios.post("http://localhost:8080/api/login", {
+       const response =   await axios.post("http://localhost:8080/api/login", {
           username: this.username,
           password: this.password,
         });
 
         alert("로그인 성공");
+        console.log(response.data);
+        // 서버 응답에서 JWT 쿠키 추출 (Spring Boot에서 쿠키로 전달됨)
+        const cookies = document.cookie.split(';');
+        let jwtToken = null;
 
-        // 서버 응답에서 JWT를 가져와 쿠키에 저장
-        // const jwtToken = response.headers['jwt-token']; // 서버에서 JWT 토큰을 헤더로 받았다고 가정
-        // document.cookie = `jwt=${jwtToken}; path=/;`;
+        cookies.forEach(cookie => {
+          const [key, value] = cookie.trim().split('=');
+          if (key === 'jwt') {
+            jwtToken = value;
+          }
+        });
 
-        // 로그인한 사용자 이름을 Vuex에 저장
-        this.$store.dispatch('setUsername', this.username);
+        if (jwtToken) {
+          // Vuex 스토어에 JWT와 사용자 이름 저장
+          this.$store.dispatch('setJwt', jwtToken);
+          this.$store.dispatch('setUsername', this.username);
 
-        this.$router.push('/'); // 홈 페이지로 리다이렉트
+          this.$router.push('/'); // 홈 페이지로 리다이렉트
+        } else {
+         console.log("에러 ")
+        }
       } catch (error) {
         this.errorMessage = "아이디 또는 비밀번호가 잘못되었습니다.";
         console.error(error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

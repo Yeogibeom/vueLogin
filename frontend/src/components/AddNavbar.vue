@@ -22,6 +22,9 @@
           <li class="nav-item">
             <router-link class="nav-link active" to="/edit">상품추가</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/PostList">게시물</router-link>
+          </li>
 
           <li class="nav-item" v-if="username">
             <span class="nav-link">{{ username }}</span>

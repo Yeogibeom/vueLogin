@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-</template>2
+</template>
 
 <script>
 import axios from 'axios';
